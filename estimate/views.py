@@ -114,9 +114,12 @@ def dashboard(request):
 
     angles = []
     total_counts = sum(data['counts'])
-    for count in data['counts']:
-        angle = count / total_counts * 2 * pi
-        angles.append(angle)
+    if total_counts > 0:
+        for count in data['counts']:
+            angle = count / total_counts * 2 * pi
+            angles.append(angle)
+    else:
+        angles = [0] * len(data['counts'])
 
     outer_radius = 0.3
     inner_radius = 0.1
@@ -130,12 +133,10 @@ def dashboard(request):
 
     end_angles = []
     current_angle = 0
-    if total_counts > 0:
-        for count in data['counts']:
-            angle = count / total_counts * 2 * pi
-            angles.append(angle)
-    else:
-        angles = [0] * len(data['counts'])
+    for angle in angles:
+        current_angle += angle
+        end_angles.append(current_angle)
+
 
     source = ColumnDataSource(data=dict(
         start_angle=start_angles,
