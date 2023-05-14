@@ -188,6 +188,7 @@ def dashboard(request):
 def create_new_project(request):
     if request.method == "POST":
         form = NewProjectForm(request.POST)
+        form1 = NewClientForm()
         if form.is_valid():
             name = form.cleaned_data.get("name")
             client = form.cleaned_data.get("client")
