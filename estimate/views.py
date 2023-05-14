@@ -45,9 +45,12 @@ def dashboard(request):
     # Compute the start and end angles for each wedge of the pie chart
     angles = []
     total_counts = sum(data['counts'])
-    for count in data['counts']:
-        angle = count / total_counts * 2 * pi
-        angles.append(angle)
+    if total_counts > 0:
+        for count in data['counts']:
+            angle = count / total_counts * 2 * pi
+            angles.append(angle)
+    else:
+        angles = [0] * len(data['counts'])
 
     start_angles = []
     current_angle = 0
@@ -127,9 +130,12 @@ def dashboard(request):
 
     end_angles = []
     current_angle = 0
-    for angle in angles:
-        current_angle += angle
-        end_angles.append(current_angle)
+    if total_counts > 0:
+        for count in data['counts']:
+            angle = count / total_counts * 2 * pi
+            angles.append(angle)
+    else:
+        angles = [0] * len(data['counts'])
 
     source = ColumnDataSource(data=dict(
         start_angle=start_angles,
